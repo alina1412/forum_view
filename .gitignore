@@ -1,0 +1,10 @@
+debug.log
+**/.vscode/
+**/__pycache__/
+.mypy_cache
+
+.env
+.venv/
+venv/
+.coverage
+htmlcov
