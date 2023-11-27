@@ -8,3 +8,4 @@ debug.log
 venv/
 .coverage
 htmlcov
+*.sql
