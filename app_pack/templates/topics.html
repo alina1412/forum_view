@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block title %} topic {% endblock %}
+
+
+{% block main %}
+
+
+<a class="" id="forum_id" data-forum-id="{{forum_id}}" onClick="return_to_main();" href="#">Вернуться на главную форума</a>
+
+<h3>Раздел форума: {{title|safe}}</h3>
+
+{% for topic in topics %}
+
+<div class="row card d-flex align-content-center justify-content-center flex-wrap">
+
+    <div class="col-12 card-el card-el-single" data-id='{{topic["topic_id"]}}' 
+             onClick="watch_topic(this);" >
+        <div class="row">
+            <div class="col-md-3 col-sm-12 flexbox" style="background-color: #f6ecd4">
+
+                <div class="w-75">
+
+                    Ответов в теме: {{topic['topic_replies']}}
+                    
+                    <br><br>
+                    номер темы {{topic["topic_id"]}}
+                </div>
+            </div>
+
+            <div class="col-md-9 col-sm-12 flexbox bg-color-light">
+                <div class="w-100 product-body position-relative " >
+
+                    <div class="text-wrap text-break w-100">
+                        <h3 class="product-price"></h3>
+                        <div class="w-100">{{topic['topic_title']|safe}}</div>
+                    </div>
+
+                    <div class="product-btns">
+                        <!-- <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+                        <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button> -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}

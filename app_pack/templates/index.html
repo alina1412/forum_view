@@ -1,12 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <h2>GGGGG</h2>
-</head>
-<body>
-    
-</body>
-</html>
+{% extends "layout.html" %}
+{% block title %} main {% endblock %}
+
+
+{% block main %}
+
+<h4 class="pb-4">Главная страница восстановленного форума</h4>
+
+{% for cat in all_categories %}
+<h3> {{cat['cat_id']}} {{cat['cat_title']|safe}}</h3>
+
+{% for forum in categs_have_forums[cat['cat_id']] %}
+<div class="row card d-flex align-content-center justify-content-center flex-wrap">
+
+    <div class="col-12 card-el card-el-single" data-forum-id='{{forum["forum_id"]}}' onClick="watch_forum(this);">
+        <div class="row">
+            <div class="col-md-3 col-sm-12 flexbox" style="background-color: #f6ecd4">
+
+                <div class="w-75">
+
+                    <!-- {{forum['forum_id']}} -->
+                    <ul>
+                        <li class="font-weight-bold fw-bold">{{forum['forum_name']|safe}}</li>
+                        <br>
+                        <li>Количество тем: {{forum['forum_topics_count']}}</li>
+                        <!-- forum['forum_posts_count'] -->
+                    </ul>
+
+                </div>
+            </div>
+
+            <div class="col-md-9 col-sm-12 flexbox bg-color-light">
+                <div class="w-100 product-body position-relative ">
+
+                    <div class="text-wrap text-break w-100">
+                        <h3 class="product-price"></h3>
+                        <div class="w-100">{{forum['forum_desc']|safe}}</div>
+                    </div>
+
+                    <div class="product-btns">
+                        <!-- <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+                            <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button> -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endfor %}
+{% endfor %}
+
+{% endblock %}

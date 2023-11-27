@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block title %} posts {% endblock %}
+
+
+{% block main %}
+
+<a class="" id='topic_id' data-topic-id="{{topic_id}}" data-forum-id="{{forum_id}}" onClick="watch_forum(this);"
+    href="#">Вернуться к списку тем</a>
+
+<h3>Тема: {{title|safe}}</h3>
+
+{% if votes %}
+{% for vote in votes %}
+<ul>
+    <li>{{vote['vote_option_text']}}: {{vote['vote_result']}} голоса(ов)</li>
+</ul>
+{% endfor %}
+{% endif %}
+
+{% for post in posts %}
+
+<div class="row card d-flex align-content-center justify-content-center flex-wrap">
+
+    <div class="col-12 card-el card-el-single" data-id='{{post["post_id"]}}' onClick="watch_post(this);">
+        <div class="row">
+            <div class="col-md-3 col-sm-12 flexbox" style="background-color: #f6ecd4">
+
+                <div class="w-75">
+                    <ul>
+                        
+                        <li>{{post['time']}}</li>
+                        <li>{{post['post_username']}}</li>
+                        <br>
+                        <!-- <li>{{post['bbcode_uid']}}</li> -->
+                        <li>номер поста: {{post["post_id"]}}</li>
+
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-9 col-sm-12 flexbox bg-color-light">
+                <div class="w-100 product-body position-relative ">
+
+                    <div class="text-wrap text-break w-100">
+                        <h3 class="product-price">{{post['post_subject']|safe}}</h3>
+                        <div class="w-100">{{post['post_text']|safe}}</div>
+                    </div>
+
+                    <div class="product-btns">
+                        <!-- <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+                        <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button> -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
