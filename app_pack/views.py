@@ -66,12 +66,13 @@ def posts(forum_id, topic_id):
         print(str(err))
         return
     print(forum_id, topic_id, "------")
-    sql = f"""select phpbb_1posts.post_id, phpbb_1posts.topic_id, phpbb_1posts.post_username,
+    sql = f"""select phpbb_1posts.post_id, phpbb_1posts.topic_id, phpbb_1users.username, phpbb_1posts.poster_id,
                     FROM_UNIXTIME(post_time, '%d-%m-%Y %H:%i:%s') AS 'time',
                     bbcode_uid, post_subject, post_text, topic_title
         from phpbb_1posts 
         left join phpbb_1posts_text on phpbb_1posts_text.post_id = phpbb_1posts.post_id
         left join phpbb_1topics on phpbb_1posts.topic_id = phpbb_1topics.topic_id
+        left join phpbb_1users on user_id = phpbb_1posts.poster_id
         where phpbb_1posts.topic_id = {topic_id}
         order by post_time
     ;"""
@@ -123,6 +124,44 @@ def topics(forum_id):
     }
     # print("-----------", context['topics'][0], context['title'])
     return render_template("topics.html", **context)
+
+
+@app.route("/users/<user_id>/")
+def users(user_id):
+    """Показывает user"""
+    try:
+        user_id = int(user_id)
+        print(user_id, '---')
+        if user_id > 10**8:
+            raise ValueError
+    except ValueError as err:
+        print(str(err))
+        return
+    forum_id = request.args.get('forumId')
+    topic_id = request.args.get('topicId')
+    return_to = {'forum_id': forum_id, 'topic_id': topic_id}
+
+    print(return_to, 'return_to-----')
+    sql = f'''
+        select username, from_unixtime(user_regdate,'%d-%m-%Y') as registered, user_posts as user_posts_count, user_from, user_occ, user_interests
+        from phpbb_1users   
+        where user_id = {user_id};    
+    '''
+    user = db_get(sql)
+    try:
+        user = user[0]
+    except Exception as err:
+        print(str(err))
+        return
+    print(user)
+    context = {
+        "user": user,
+        'return_to': return_to
+        # "title": topics[0]["forum_name"],
+        # "forum_id": forum_id,
+    }
+    # print("-----------", context['topics'][0], context['title'])
+    return render_template("user.html", **context)
 
 
 # Creating a connection cursor

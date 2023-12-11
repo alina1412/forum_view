@@ -29,7 +29,7 @@
                     <ul>
                         
                         <li>{{post['time']}}</li>
-                        <li>{{post['post_username']}}</li>
+                        <a class="alink" data-user-id='{{post["poster_id"]}}' onClick="watch_user(this);">{{post['username']}}</a>
                         <br>
                         <!-- <li>{{post['bbcode_uid']}}</li> -->
                         <li>номер поста: {{post["post_id"]}}</li>

@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block title %} users {% endblock %}
+
+
+{% block main %}
+
+
+{% if return_to and return_to['forum_id'] %}
+<a class="" id='forum_id' data-id="{{return_to['topic_id']}}" data-forum-id="{{return_to['forum_id']}}" onClick="watch_topic(this);"
+    href="#">Вернуться </a>
+{% endif %}
+
+
+<h3>Пользователь: {{user['username']|safe}}</h3>
+
+
+<div class="row card d-flex align-content-center justify-content-center flex-wrap">
+
+    <div class="col-12 card-el card-el-single">
+        <div class="row">
+            <div class="col-md-3 col-sm-12 flexbox" style="background-color: #f6ecd4">
+                <ul>
+                    <li>Дата регистрации: {{user['registered']}}</li>
+                    <li>Написал постов: {{user['user_posts_count']}}</li>
+                    <li>Откуда: {{user['user_from']}}</li>
+                    <li>Чем занимается: {{user['user_occ']}}</li>
+                </ul>
+            </div>
+
+            <div class="col-md-9 col-sm-12 flexbox bg-color-light">
+                Интересы: {{user['user_interests']|safe}}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}
