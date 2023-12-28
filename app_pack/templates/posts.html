@@ -19,7 +19,7 @@
 
 {% for post in posts %}
 
-<div class="row card d-flex align-content-center justify-content-center flex-wrap">
+<div class="row card d-flex align-content-center justify-content-center flex-wrap" id="{{post['bbcode_uid']}}">
 
     <div class="col-12 card-el card-el-single" data-id='{{post["post_id"]}}' onClick="watch_post(this);">
         <div class="row">

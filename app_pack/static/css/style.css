@@ -78,6 +78,14 @@ a, .alink {
   transition: 0.3s color;
 }
 
+.quote {
+  font-style: italic;
+  background-color: rgb(249 242 233);
+  margin-left: 20pt;
+  margin-bottom: 8pt;
+}
+
+
 a:hover, a:focus, .alink:hover, .alink:focus  {
   color: #F8694A;
   text-decoration: none;

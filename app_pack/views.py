@@ -1,3 +1,4 @@
+import re
 from flask import flash, redirect, render_template, request, session, url_for, Flask
 
 from . import db, app
@@ -87,6 +88,38 @@ def posts(forum_id, topic_id):
         where topic_id = {topic_id}
         ;"""
         votes = db_get(sql)
+
+    def change_quotes(post):
+        
+        post_text = post['post_text']
+
+        print()
+        pattern = r'''^(.*)?(\[quote:[a-z0-9\-]{10})([=]["].*["]\])(.*)?(\[\/quote:[a-z0-9\-]{10}\])(.*)?'''
+        groups_ = re.match(pattern, post_text)
+        if groups_:
+            print([(i, g) for i, g in enumerate(groups_.groups())])
+            d = {}
+            for i, g in enumerate(groups_.groups()):
+                d[i] = g
+                print(i, " ", g)
+
+            print()
+            bbcode = groups_.group(2)[7:]
+
+            if 0:
+                link = f'''<a href="#" onClick="e.preventDefault(); $("#{bbcode}")[0].scrollIntoView();";>Цитата: </a>'''
+            else:
+                link = '<p>Цитата: </p>'
+            post_text = post_text.replace(d[1], '''\n<div class='quote'>\n''' + link)
+            post_text = post_text.replace(d[2], '')
+            post_text = post_text.replace(d[4], '''\n</div>\n''')
+            print(post_text)
+        return post_text
+    # print(groups_.group(1), groups_.group(5), groups_.group(8)) # inds 0, 4, 7 (1, 2, 3, 5, 6)
+    
+    for i, elem in enumerate(posts):
+        post_text = change_quotes(elem)
+        posts[i]['post_text'] = post_text
 
     context = {
         "posts": posts,
