@@ -92,6 +92,11 @@ def posts(forum_id, topic_id):
     def change_quotes(post):
         
         post_text = post['post_text']
+        post_text = post_text.replace('\r\n', '<br>')
+        post_text = post_text.replace('\n', '<br>')
+        for elem in app.config["smilies"]:
+            img = f'''<img src="/static/img/{elem['smile_url']}" type="image/ico">'''
+            post_text = post_text.replace(elem['code'], img)
 
         print()
         pattern = r'''^(.*)?(\[quote:[a-z0-9\-]{10})([=]["].*["]\])(.*)?(\[\/quote:[a-z0-9\-]{10}\])(.*)?'''
@@ -101,7 +106,7 @@ def posts(forum_id, topic_id):
             d = {}
             for i, g in enumerate(groups_.groups()):
                 d[i] = g
-                print(i, " ", g)
+                # print(i, " ", g)
 
             print()
             bbcode = groups_.group(2)[7:]
@@ -110,6 +115,7 @@ def posts(forum_id, topic_id):
                 link = f'''<a href="#" onClick="e.preventDefault(); $("#{bbcode}")[0].scrollIntoView();";>Цитата: </a>'''
             else:
                 link = '<p>Цитата: </p>'
+            
             post_text = post_text.replace(d[1], '''\n<div class='quote'>\n''' + link)
             post_text = post_text.replace(d[2], '')
             post_text = post_text.replace(d[4], '''\n</div>\n''')

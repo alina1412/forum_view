@@ -23,3 +23,10 @@ app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
 with app.app_context():
     db = MySQL(app)
+
+    cur = db.connection.cursor()
+    sql = '''select code, smile_url from phpbb_1smilies;'''
+    cur.execute(sql)
+    res_smilies = cur.fetchall()
+    app.config["smilies"] = res_smilies
+   
