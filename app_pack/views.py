@@ -21,6 +21,11 @@ def forums():
     d2 = [(res["cat_id"], res["cat_title"]) for res in all_categories]
     all_cat_id = [int(x[0]) for x in d2]
     # print(all_categories)
+    # all_em = []
+    # for elem in app.config["smilies"]:
+    #     aaa = {'title': elem['smile_url'], 'code': elem['code']}
+    #     # img = f'''<img src="/static/img/{elem['smile_url']}" type="image/ico" alt="{elem['code']}">'''
+    #     all_em.append(aaa)
 
     categs_have_forums = {}
 
@@ -51,6 +56,7 @@ def forums():
     context = {
         "all_categories": all_categories,
         "categs_have_forums": categs_have_forums,
+        # 'all_em': all_em
     }
     # print("-----------")
     return render_template("index.html", **context)
@@ -98,7 +104,7 @@ def posts(forum_id, topic_id):
             img = f'''<img src="/static/img/{elem['smile_url']}" type="image/ico">'''
             post_text = post_text.replace(elem['code'], img)
 
-        print()
+        # print()
         pattern = r'''^(.*)?(\[quote:[a-z0-9\-]{10})([=]["].*["]\])(.*)?(\[\/quote:[a-z0-9\-]{10}\])(.*)?'''
         groups_ = re.match(pattern, post_text)
         if groups_:
@@ -108,7 +114,7 @@ def posts(forum_id, topic_id):
                 d[i] = g
                 # print(i, " ", g)
 
-            print()
+            # print()
             bbcode = groups_.group(2)[7:]
 
             if 0:
@@ -120,6 +126,33 @@ def posts(forum_id, topic_id):
             post_text = post_text.replace(d[2], '')
             post_text = post_text.replace(d[4], '''\n</div>\n''')
             print(post_text)
+
+        def for_b_tag(post_text):
+            pattern = r'''\[b:[a-z0-9\-]{10}\]'''
+            post_text = re.sub(pattern, '''\n<b>\n''', post_text)
+            
+            pattern = r'''\[\/b:[a-z0-9\-]{10}\]'''
+            post_text = re.sub(pattern, '''\n</b>\n''', post_text)
+            return post_text
+        
+        post_text = for_b_tag(post_text)
+
+        def for_i_tag(post_text):
+            pattern = r'''\[i:[a-z0-9\-]{10}\]'''
+            post_text = re.sub(pattern, '''\n<i>\n''', post_text)
+            
+            pattern = r'''\[\/i:[a-z0-9\-]{10}\]'''
+            post_text = re.sub(pattern, '''\n</i>\n''', post_text)
+
+            pattern = r'''\[u:[a-z0-9\-]{10}\]'''
+            post_text = re.sub(pattern, '''\n<i>\n''', post_text)
+            
+            pattern = r'''\[\/u:[a-z0-9\-]{10}\]'''
+            post_text = re.sub(pattern, '''\n</i>\n''', post_text)
+            return post_text
+        
+        post_text = for_i_tag(post_text)
+        
         return post_text
     # print(groups_.group(1), groups_.group(5), groups_.group(8)) # inds 0, 4, 7 (1, 2, 3, 5, 6)
     
