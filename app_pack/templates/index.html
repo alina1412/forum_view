@@ -6,6 +6,10 @@
 
 <h4 class="pb-4">Главная страница восстановленного форума</h4>
 
+{% for elem in all_em %}
+ <img src="/static/img/{{elem['title']}}" type="image/ico" alt="{{elem['code']}}">
+{% endfor %}
+
 {% for cat in all_categories %}
 <h3> {{cat['cat_id']}} {{cat['cat_title']|safe}}</h3>
 
