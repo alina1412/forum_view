@@ -9,3 +9,5 @@ venv/
 .coverage
 htmlcov
 *.sql
+*.csv
+*.tar
