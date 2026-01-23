@@ -1,5 +1,5 @@
 import os
-
+import logging
 from dotenv import load_dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -44,6 +44,8 @@ db.init_app(app)
 
 
 with app.app_context():
+    app.config["smilies"] = []
+
     try:
         result = db.session.execute(
             text(
@@ -52,9 +54,8 @@ with app.app_context():
         )
         res_smilies = result.fetchall()
         app.config["smilies"] = res_smilies
-    except Exception as e:
-        print(f"Smilies table not found or error: {e}")
-        app.config["smilies"] = []
+    except Exception as exc:
+        logging.error((f"Smilies table not found or error: {exc}"))
 
 
 @app.route("/2")

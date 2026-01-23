@@ -1,4 +1,3 @@
-import re
 import logging
 
 from flask import (
@@ -6,6 +5,8 @@ from flask import (
     request,
 )
 from sqlalchemy import text
+
+from app_pack.text_parser import change_quotes
 
 from . import app, db
 
@@ -72,7 +73,9 @@ def posts_view(forum_id, topic_id):
     posts = db_get(sql)
 
     votes = {}
-    if topic_id in [87, 96, 100, 146, 172, 192]:
+    SPECIAL_TOPIC_IDS = [87, 96, 100, 146, 172, 192]
+
+    if topic_id in SPECIAL_TOPIC_IDS:
         sql = f"""    
         SELECT  vote_option_text, vote_result
         FROM dennikov.phpbb_1vote_desc
@@ -82,74 +85,6 @@ def posts_view(forum_id, topic_id):
         ;"""
         votes = db_get(sql)
 
-    def change_quotes(post):
-        post_text = post.get("post_text", "")
-        if not post_text:
-            post_text = ""
-        logging.debug(f"post_text {post_text}")
-
-        post_text = post_text.replace("\r\n", "<br>")
-        post_text = post_text.replace("\n", "<br>")
-
-        for elem in app.config["smilies"]:
-            img = f"""<img src="/static/img/{elem.smile_url}" type="image/ico">"""
-            post_text = post_text.replace(elem.code, img)
-
-        pattern = r"""^(.*)?(\[quote:[a-z0-9\-]{10})([=]["].*["]\])(.*)?(\[\/quote:[a-z0-9\-]{10}\])(.*)?"""
-        groups_ = re.match(pattern, post_text)
-
-        if groups_:
-            logging.debug(
-                f"groups: {[(i, g) for i, g in enumerate(groups_.groups())]}"
-            )
-            d = {}
-            for i, g in enumerate(groups_.groups()):
-                d[i] = g
-
-            bbcode = groups_.group(2)[7:]
-
-            if 0:
-                link = f"""<a href="#" onClick="e.preventDefault(); $("#{bbcode}")[0].scrollIntoView();";>Цитата: </a>"""
-            else:
-                link = "<p>Цитата: </p>"
-
-            post_text = post_text.replace(
-                d[1], """\n<div class='quote'>\n""" + link
-            )
-            post_text = post_text.replace(d[2], "")
-            post_text = post_text.replace(d[4], """\n</div>\n""")
-            logging.debug(f"processed post_text: {post_text}")
-
-        def for_b_tag(post_text):
-            pattern = r"""\[b:[a-z0-9\-]{10}\]"""
-            post_text = re.sub(pattern, """\n<b>\n""", post_text)
-
-            pattern = r"""\[\/b:[a-z0-9\-]{10}\]"""
-            post_text = re.sub(pattern, """\n</b>\n""", post_text)
-            return post_text
-
-        post_text = for_b_tag(post_text)
-
-        def for_i_tag(post_text):
-            pattern = r"""\[i:[a-z0-9\-]{10}\]"""
-            post_text = re.sub(pattern, """\n<i>\n""", post_text)
-
-            pattern = r"""\[\/i:[a-z0-9\-]{10}\]"""
-            post_text = re.sub(pattern, """\n</i>\n""", post_text)
-
-            pattern = r"""\[u:[a-z0-9\-]{10}\]"""
-            post_text = re.sub(pattern, """\n<i>\n""", post_text)
-
-            pattern = r"""\[\/u:[a-z0-9\-]{10}\]"""
-            post_text = re.sub(pattern, """\n</i>\n""", post_text)
-            return post_text
-
-        post_text = for_i_tag(post_text)
-
-        return post_text
-
-    # print(groups_.group(1), groups_.group(5), groups_.group(8)) # inds 0, 4, 7 (1, 2, 3, 5, 6)
-    # posts = [( p.post_id, p.username) for p in posts]
     posts = [
         dict(
             zip(

@@ -22,7 +22,7 @@ db.init_app(app)
 
 def insert_to_phpbb_1posts():
     ins1 = """
-    INSERT INTO phpbb_1posts (post_id, topic_id, forum_id, 
+    INSERT INTO dennikov.phpbb_1posts (post_id, topic_id, forum_id, 
         poster_id, post_time, poster_ip, post_username, enable_bbcode, 
         enable_html, enable_smilies, enable_sig, post_edit_time, 
         post_edit_count)
@@ -60,7 +60,7 @@ def insert_to_phpbb_1posts():
 
 def insert_to_post_text():
     ins1 = """
-    INSERT INTO phpbb_1posts_text 
+    INSERT INTO dennikov.phpbb_1posts_text 
         (post_id, bbcode_uid, post_subject, post_text)
     VALUES 
         (:post_id, :bbcode_uid, :post_subject, :post_text)
