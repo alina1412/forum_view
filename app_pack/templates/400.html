@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block title %}Bad Request{% endblock %}
+
+{% block main %}
+<div class="alert alert-danger" role="alert">
+    <h4 class="alert-heading">400 - Bad Request</h4>
+    <p>The request could not be understood by the server due to malformed syntax.</p>
+    <hr>
+    <p class="mb-0">Please check the URL and try again.</p>
+</div>
+{% endblock %}

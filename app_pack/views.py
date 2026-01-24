@@ -1,6 +1,7 @@
 import logging
 
 from flask import (
+    abort,
     render_template,
     request,
 )
@@ -54,7 +55,7 @@ def posts_view(forum_id, topic_id):
         topic_id = int(topic_id)
     except ValueError as err:
         logging.error(str(err))
-        return "Invalid forum or topic ID"
+        abort(400)
 
     logging.debug(f"forum_id {forum_id}, topic_id {topic_id}")
 
@@ -122,7 +123,7 @@ def topics_view(forum_id):
         forum_id = int(forum_id)
     except ValueError as err:
         logging.error(str(err))
-        return "Invalid forum ID"
+        abort(400)
     logging.debug(f"{forum_id} forum_id")
 
     sql = """SELECT forum_name, topic_id, topic_title, topic_replies
@@ -154,7 +155,7 @@ def users(user_id):
             raise ValueError
     except ValueError as err:
         logging.error(str(err))
-        return "Invalid user ID"
+        abort(400)
 
     forum_id = request.args.get("forumId")
     topic_id = request.args.get("topicId")
@@ -173,7 +174,7 @@ def users(user_id):
         user = user[0]
     except Exception as err:
         logging.error(str(err))
-        return "User not found"
+        abort(404)
 
     logging.debug(f"user: {user}")
 

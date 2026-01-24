@@ -1,7 +1,7 @@
 import os
 import logging
 from dotenv import load_dotenv
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from sqlalchemy.orm import DeclarativeBase
@@ -56,6 +56,11 @@ with app.app_context():
         app.config["smilies"] = res_smilies
     except Exception as exc:
         logging.error((f"Smilies table not found or error: {exc}"))
+
+
+@app.errorhandler(400)
+def bad_request(error):
+    return render_template("400.html"), 400
 
 
 @app.route("/2")
