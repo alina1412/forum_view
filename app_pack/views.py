@@ -11,8 +11,8 @@ from app_pack.text_parser import change_quotes
 from . import app, db
 
 
-def db_get(sql):
-    res = db.session.execute(text(sql))
+def db_get(sql, params=None):
+    res = db.session.execute(text(sql), params or {})
     return res.fetchall()
 
 
@@ -32,11 +32,10 @@ def forums_view():
     sql = """SELECT phpbb_1forums.forum_id, forum_name, forum_desc, 
         forum_posts as forum_posts_count, forum_topics as forum_topics_count
         FROM dennikov.phpbb_1forums
-        where cat_id = {};"""
+        where cat_id = :cat_id;"""
 
     for cat_id in all_cat_id:
-        res = db_get(sql.format(cat_id))
-        """forum_ids_in_cat = [x["forum_id"] for x in res]"""
+        res = db_get(sql, {"cat_id": cat_id})
         categs_have_forums[cat_id] = res
 
     context = {
@@ -55,11 +54,11 @@ def posts_view(forum_id, topic_id):
         topic_id = int(topic_id)
     except ValueError as err:
         logging.error(str(err))
-        return
+        return "Invalid forum or topic ID"
 
-    logging.debug(f"{forum_id}, {topic_id}")
+    logging.debug(f"forum_id {forum_id}, topic_id {topic_id}")
 
-    sql = f"""SELECT phpbb_1posts.post_id, phpbb_1posts.topic_id, 
+    sql = """SELECT phpbb_1posts.post_id, phpbb_1posts.topic_id, 
     phpbb_1users.username, phpbb_1posts.poster_id,
     to_char(date(to_timestamp(post_time)),'DD-MM-YYYY') AS "time2",
                     bbcode_uid, post_subject, post_text, topic_title
@@ -67,51 +66,36 @@ def posts_view(forum_id, topic_id):
         left join dennikov.phpbb_1posts_text on phpbb_1posts_text.post_id = phpbb_1posts.post_id
         left join dennikov.phpbb_1topics on phpbb_1posts.topic_id = phpbb_1topics.topic_id
         left join dennikov.phpbb_1users on user_id = phpbb_1posts.poster_id
-        where phpbb_1posts.topic_id = {topic_id}
+        where phpbb_1posts.topic_id = :topic_id
         order by post_time
     ;"""
-    posts = db_get(sql)
+    posts = db_get(sql, {"topic_id": topic_id})
 
     votes = {}
     SPECIAL_TOPIC_IDS = [87, 96, 100, 146, 172, 192]
 
     if topic_id in SPECIAL_TOPIC_IDS:
-        sql = f"""    
+        sql = """    
         SELECT  vote_option_text, vote_result
         FROM dennikov.phpbb_1vote_desc
         left join dennikov.phpbb_1vote_results 
            on phpbb_1vote_desc.vote_id = phpbb_1vote_results.vote_id
-        where topic_id = {topic_id}
+        where topic_id = :topic_id
         ;"""
-        votes = db_get(sql)
+        votes = db_get(sql, {"topic_id": topic_id})
 
     posts = [
-        dict(
-            zip(
-                [
-                    "post_id",
-                    "topic_id",
-                    "username",
-                    "poster_id",
-                    "time",
-                    "bbcode_uid",
-                    "post_subject",
-                    "post_text",
-                    "topic_title",
-                ],
-                [
-                    post.post_id,
-                    post.topic_id,
-                    post.username,
-                    post.poster_id,
-                    post.time2,
-                    post.bbcode_uid,
-                    post.post_subject,
-                    post.post_text,
-                    post.topic_title,
-                ],
-            )
-        )
+        {
+            "post_id": post.post_id,
+            "topic_id": post.topic_id,
+            "username": post.username,
+            "poster_id": post.poster_id,
+            "time": post.time2,
+            "bbcode_uid": post.bbcode_uid,
+            "post_subject": post.post_subject,
+            "post_text": post.post_text,
+            "topic_title": post.topic_title,
+        }
         for post in posts
     ]
 
@@ -138,17 +122,17 @@ def topics_view(forum_id):
         forum_id = int(forum_id)
     except ValueError as err:
         logging.error(str(err))
-        return
+        return "Invalid forum ID"
     logging.debug(f"{forum_id} forum_id")
 
-    sql = f"""SELECT forum_name, topic_id, topic_title, topic_replies
+    sql = """SELECT forum_name, topic_id, topic_title, topic_replies
         FROM dennikov.phpbb_1topics
         left join dennikov.phpbb_1forums 
                   on phpbb_1forums.forum_id = phpbb_1topics.forum_id
-        where phpbb_1topics.forum_id = {forum_id}
+        where phpbb_1topics.forum_id = :forum_id
         order by topic_id;
     """
-    topics = db_get(sql)
+    topics = db_get(sql, {"forum_id": forum_id})
 
     context = {
         "topics": topics,
@@ -160,35 +144,36 @@ def topics_view(forum_id):
 
 @app.route("/users/<user_id>/")
 def users(user_id):
-    """Показывает user"""
+    """Показывает пользователей"""
+    MAXUSERID = 10**8
+
     try:
         user_id = int(user_id)
         logging.debug(f"{user_id}")
-        if user_id > 10**8:
+        if user_id > MAXUSERID:
             raise ValueError
     except ValueError as err:
         logging.error(str(err))
-        return
+        return "Invalid user ID"
 
     forum_id = request.args.get("forumId")
     topic_id = request.args.get("topicId")
     return_to = {"forum_id": forum_id, "topic_id": topic_id}
-
     logging.debug(f"return_to: {return_to}")
 
-    sql = f"""
+    sql = """
         SELECT username, 
         to_char(date(to_timestamp(user_regdate)),'DD-MM-YYYY') as registered, 
         user_posts as user_posts_count, user_from, user_occ, user_interests
         FROM dennikov.phpbb_1users   
-        where user_id = {user_id};    
+        where user_id = :user_id;    
     """
-    user = db_get(sql)
+    user = db_get(sql, {"user_id": user_id})
     try:
         user = user[0]
     except Exception as err:
         logging.error(str(err))
-        return
+        return "User not found"
 
     logging.debug(f"user: {user}")
 
