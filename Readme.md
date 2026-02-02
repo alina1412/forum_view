@@ -1,6 +1,19 @@
-personal project
+## personal project (Forum, flask)
 
-flask
+deploy: https://flaskdennikov--dennikov.replit.app/
+
+
+<img width="1586" height="909" alt="image" src="https://github.com/user-attachments/assets/4e7f1ec9-1dce-417b-8058-36faf358d955" />
+
+<details close="">
+<summary>  
+        
+### personal notes
+
+        
+
+</summary> 
+
 
 CREATE DATABASE dennikov;
 use  dennikov;
@@ -43,3 +56,5 @@ docker run --rm -it --network host dimitri/pgloader:latest pgloader mysql://newu
 
 docker run -p 3307:3306 --name forum_view_db_1 -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=dennikov -d mysql
 
+
+</details>
