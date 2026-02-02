@@ -7,10 +7,16 @@
 <h4 class="pb-4">Главная страница восстановленного форума</h4>
 
 
-{% for cat in all_categories %}
-<h3> {{cat['cat_id']}} {{cat['cat_title']|safe}}</h3>
+{% set all_categories = {1: "АРТИСТЫ И ХУДОЖНИКИ", 2: "ЗАРЕГИСТРИРОВАННЫМ ПОЛЬЗОВАТЕЛЯМ", 3: "ДОБРО ПОЖАЛОВАТЬ В ТЕАТР КУКОЛ"} %}
+     
 
-{% for forum in categs_have_forums[cat['cat_id']] %}
+{% for cat_num in categs_have_forums %}
+
+<h3> {{cat_num}} {{all_categories[cat_num]}} </h3>
+ 
+
+{% for forum in categs_have_forums[cat_num] %}
+
 <div class="row card d-flex align-content-center justify-content-center flex-wrap">
 
     <div class="col-12 card-el card-el-single" data-forum-id='{{forum["forum_id"]}}' onClick="watch_forum(this);">
@@ -39,8 +45,6 @@
                     </div>
 
                     <div class="product-btns">
-                        <!-- <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
-                            <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button> -->
                     </div>
                 </div>
 

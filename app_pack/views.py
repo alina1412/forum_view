@@ -20,27 +20,21 @@ def db_get(sql, params=None):
 @app.route("/")
 def forums_view():
     """Главная с форумами по категориям"""
-    all_categories = db_get("""
-                SELECT cat_id, cat_title 
-                FROM dennikov.phpbb_1categories 
-                ORDER BY cat_order;
-                            """)
+    categs_have_forums = {1: [], 3: [], 2: []}
 
-    all_cat_id = [int(cat.cat_id) for cat in all_categories]
+    sql = """SELECT f.forum_id, forum_name, forum_desc, 
+        forum_posts as forum_posts_count, 
+        forum_topics as forum_topics_count, f.cat_id, c.cat_title
+        FROM dennikov.phpbb_1forums f
+        JOIN dennikov.phpbb_1categories c
+        ON f.cat_id = c.cat_id;
+        """
+    forums = db_get(sql)
 
-    categs_have_forums = {}
-
-    sql = """SELECT phpbb_1forums.forum_id, forum_name, forum_desc, 
-        forum_posts as forum_posts_count, forum_topics as forum_topics_count
-        FROM dennikov.phpbb_1forums
-        where cat_id = :cat_id;"""
-
-    for cat_id in all_cat_id:
-        res = db_get(sql, {"cat_id": cat_id})
-        categs_have_forums[cat_id] = res
+    for row in forums:
+        categs_have_forums[row.cat_id].append(row)
 
     context = {
-        "all_categories": all_categories,
         "categs_have_forums": categs_have_forums,
     }
 

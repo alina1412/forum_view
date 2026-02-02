@@ -6,11 +6,7 @@ def test_main_view(client, captured_templates):
     template, context = captured_templates[0]
 
     assert template.name == "index.html"
-    for key in (
-        "all_categories",
-        "categs_have_forums",
-    ):
-        assert key in context
+    assert "categs_have_forums" in context
 
 
 def test_topics_view(client, captured_templates):
