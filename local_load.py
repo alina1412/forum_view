@@ -3,6 +3,8 @@
 import csv
 import os
 
+import psycopg2
+from psycopg2.extras import execute_values
 from dotenv import load_dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -13,72 +15,81 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = "my secret key"
 
-
 db = SQLAlchemy()
 database_url = os.getenv("DATABASE_URL")
+print(f"database_url: {database_url}")
+print("FOR REPLIT PASTE PROD URL-----!")
+# database_url = """"""
 app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 db.init_app(app)
 
 SCHEMA_NAME = "dennikov."
 
 
-def insert_to_phpbb_1posts():
-    ins1 = f"""
-    INSERT INTO {SCHEMA_NAME}phpbb_1posts (post_id, topic_id, forum_id, 
-        poster_id, post_time, poster_ip, post_username, enable_bbcode, 
-        enable_html, enable_smilies, enable_sig, post_edit_time, 
-        post_edit_count)
-    VALUES (:post_id, :topic_id, :forum_id, 
-        :poster_id, :post_time, :poster_ip, :post_username, :enable_bbcode, 
-        :enable_html, :enable_smilies, :enable_sig, :post_edit_time, 
-        :post_edit_count)
-    ON CONFLICT DO NOTHING;
-    """
+def get_conn():
+    return psycopg2.connect(database_url)
 
+
+def insert_to_phpbb_1posts():
     with open("phpbb_1posts_1.csv", mode="r") as file:
         csvFile = csv.DictReader(file, delimiter=";")
+        rows = []
         for lines in csvFile:
-            lines["post_id"] = int(lines["post_id"])
-            lines["topic_id"] = int(lines["topic_id"])
-            lines["forum_id"] = int(lines["forum_id"])
-            lines["poster_id"] = int(lines["poster_id"])
-            lines["post_time"] = int(lines["post_time"])
-            # lines['poster_ip'] 'post_username'
-            # lines['post_username'] = 'aaaaaaaaa'
-            lines["enable_bbcode"] = bool(lines["enable_bbcode"])
-            lines["enable_html"] = bool(lines["enable_html"])
-            lines["enable_smilies"] = bool(lines["enable_smilies"])
-            lines["enable_sig"] = bool(lines["enable_sig"])
-            lines["post_edit_time"] = (
-                int(lines["post_edit_time"])
-                if lines["post_edit_time"]
-                else None
-            )
-            lines["post_edit_count"] = int(lines["post_edit_count"])
-            # print(lines)
-            db.session.execute(text(ins1), lines)
+            rows.append((
+                int(lines["post_id"]),
+                int(lines["topic_id"]),
+                int(lines["forum_id"]),
+                int(lines["poster_id"]),
+                int(lines["post_time"]),
+                lines["poster_ip"],
+                lines["post_username"],
+                bool(lines["enable_bbcode"]),
+                bool(lines["enable_html"]),
+                bool(lines["enable_smilies"]),
+                bool(lines["enable_sig"]),
+                int(lines["post_edit_time"]) if lines["post_edit_time"] else None,
+                int(lines["post_edit_count"]),
+            ))
 
-        db.session.commit()
+    conn = get_conn()
+    cur = conn.cursor()
+    sql = f"""
+        INSERT INTO {SCHEMA_NAME}phpbb_1posts (post_id, topic_id, forum_id,
+            poster_id, post_time, poster_ip, post_username, enable_bbcode,
+            enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count)
+        VALUES %s ON CONFLICT DO NOTHING;
+    """
+    execute_values(cur, sql, rows, page_size=500)
+    conn.commit()
+    cur.close()
+    conn.close()
+    print(f"insert_to_phpbb_1posts: {len(rows)} rows processed")
 
 
 def insert_to_post_text():
-    ins1 = f"""
-    INSERT INTO {SCHEMA_NAME}phpbb_1posts_text 
-        (post_id, bbcode_uid, post_subject, post_text)
-    VALUES 
-        (:post_id, :bbcode_uid, :post_subject, :post_text)
-    ON CONFLICT DO NOTHING;
-    """
-
     with open("phpbb_1posts_text_2.csv", mode="r") as file:
         csvFile = csv.DictReader(file, delimiter=";")
-
+        rows = []
         for lines in csvFile:
-            lines["post_id"] = int(lines["post_id"])
-            # print(lines)
-            db.session.execute(text(ins1), lines)
+            rows.append((
+                int(lines["post_id"]),
+                lines["bbcode_uid"],
+                lines["post_subject"],
+                lines["post_text"],
+            ))
 
-        db.session.commit()
+    conn = get_conn()
+    cur = conn.cursor()
+    sql = f"""
+        INSERT INTO {SCHEMA_NAME}phpbb_1posts_text 
+        (post_id, bbcode_uid, post_subject, post_text)
+        VALUES %s ON CONFLICT DO NOTHING;
+    """
+    execute_values(cur, sql, rows, page_size=500)
+    conn.commit()
+    cur.close()
+    conn.close()
+    print(f"insert_to_post_text: {len(rows)} rows processed")
 
 
 # fmt: off
@@ -134,9 +145,11 @@ with app.app_context():
         cat_list = [
             f"{cat.cat_id} (ID: {cat.cat_title})" for cat in categories
         ]
-        print(cat_list)
+        print("connected")
+        # print(cat_list)
 
     # insert_to_categories()
     insert_to_phpbb_1posts()
     insert_to_post_text()
     insert_to_forums()
+    print("done")
