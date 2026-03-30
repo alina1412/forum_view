@@ -9,31 +9,42 @@ deploy: https://flaskdennikov--dennikov.replit.app/
 <img width="1586" height="909" alt="image" src="https://github.com/user-attachments/assets/4e7f1ec9-1dce-417b-8058-36faf358d955" />
 
 
-## Document endpoints:
+## API Endpoints
 
-- Main url
-    -- URL: /
-    -- Method: GET
-    -- Description: Displays the main forum categories.
-    -- Tables: dennikov.phpbb_1forums, dennikov.phpbb_1categories
+### Main Forum View
+- **URL:** `/`
+- **Method:** `GET`
+- **Description:** Displays the main forum categories.
+- **Tables:**
+  - `dennikov.phpbb_1forums`
+  - `dennikov.phpbb_1categories`
 
-- Document the posts view endpoint:
-    -- URL: /topics/<forum_id>/<topic_id>
-    -- Method: GET
-    -- Description: Shows a list of posts in a specific topic within a forum.
-    -- Tables: dennikov.phpbb_1posts, dennikov.phpbb_1posts_text, dennikov.phpbb_1topics, dennikov.phpbb_1users (and for votes: dennikov.phpbb_1vote_desc, dennikov.phpbb_1vote_results)
+### Topics View
+- **URL:** `/topics/<forum_id>`
+- **Method:** `GET`
+- **Description:** Displays a list of topics in a specific forum.
+- **Tables:**
+  - `dennikov.phpbb_1topics`
+  - `dennikov.phpbb_1forums`
 
-- Document the topics view endpoint:
-    -- URL: /topics/<forum_id>
-    -- Method: GET
-    -- Description: Displays a list of topics in a specific forum.
-    -- Tables: dennikov.phpbb_1topics, dennikov.phpbb_1forums
+### Posts View
+- **URL:** `/topics/<forum_id>/<topic_id>`
+- **Method:** `GET`
+- **Description:** Shows a list of posts in a specific topic within a forum.
+- **Tables:**
+  - `dennikov.phpbb_1posts`
+  - `dennikov.phpbb_1posts_text`
+  - `dennikov.phpbb_1topics`
+  - `dennikov.phpbb_1users`
+  - `dennikov.phpbb_1vote_desc` (for votes)
+  - `dennikov.phpbb_1vote_results` (for votes)
 
-- Document the user view endpoint:
-    -- URL: /users/<user_id>/
-    -- Method: GET
-    -- Description: Displays information about a specific user.
-    -- Tables: dennikov.phpbb_1users
+### User View
+- **URL:** `/users/<user_id>/`
+- **Method:** `GET`
+- **Description:** Displays information about a specific user.
+- **Tables:**
+  - `dennikov.phpbb_1users`
 
 
 <details close="">
