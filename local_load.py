@@ -157,6 +157,89 @@ def insert_to_forums():
     db.session.execute(text(sql))
     db.session.commit()
 
+def insert_vote_desc_from_csv(csv_file):
+    """
+    Read data from vote_desc.csv and insert into phpbb_1vote_desc table
+    """
+    query = f"""
+        INSERT INTO {SCHEMA_NAME}phpbb_1vote_desc 
+            (vote_id, topic_id, vote_text, vote_start, vote_length)
+        VALUES 
+            (:vote_id, :topic_id, :vote_text, :vote_start, :vote_length)
+    """
+
+    with open(csv_file, mode="r", encoding='utf-8') as file:
+        csvFile = csv.DictReader(file, delimiter=";")
+
+        for row in csvFile:
+            row["vote_id"] = int(row["vote_id"])
+            row["topic_id"] = int(row["topic_id"])
+            row["vote_start"] = int(row["vote_start"])
+            row["vote_length"] = int(row["vote_length"])
+       
+            db.session.execute(text(query), row)
+           
+        db.session.commit()
+
+    print(f"Inserted into phpbb_1vote_desc")
+
+
+def insert_vote_results_from_csv(csv_file):
+    """
+    Read data from vote_results.csv and insert into phpbb_1vote_results table
+    """
+    query = f"""
+        INSERT INTO {SCHEMA_NAME}phpbb_1vote_results 
+            (vote_id, vote_option_id, vote_option_text, vote_result)
+        VALUES 
+            (:vote_id, :vote_option_id, :vote_option_text, :vote_result)
+    """
+
+
+    with open(csv_file, mode="r", encoding='utf-8') as file:
+        csvFile = csv.DictReader(file, delimiter=";")
+
+        for row in csvFile:
+            row["vote_id"] = int(row["vote_id"])
+            row["vote_option_id"] = int(row["vote_option_id"])
+            row["vote_result"] = int(row["vote_result"])
+            # vote_option_text remains as string
+
+            db.session.execute(text(query), row)
+           
+        db.session.commit()
+     
+    print(f"Inserted into phpbb_1vote_results")
+
+
+def insert_vote_voters_from_csv(csv_file):
+    """
+    Read data from vote_voters.csv and insert into phpbb_1vote_voters table
+    """
+    query = f"""
+        INSERT INTO {SCHEMA_NAME}phpbb_1vote_voters 
+            (vote_id, vote_user_id, vote_user_ip)
+        VALUES 
+            (:vote_id, :vote_user_id, :vote_user_ip)
+    """
+
+
+    with open(csv_file, mode="r", encoding='utf-8') as file:
+        csvFile = csv.DictReader(file, delimiter=";")
+        count = 0
+
+        for row in csvFile:
+            # Convert integer fields
+            row["vote_id"] = int(row["vote_id"])
+            row["vote_user_id"] = int(row["vote_user_id"])
+            # vote_user_ip remains as string (bpchar)
+
+            db.session.execute(text(query), row)
+           
+        db.session.commit()
+
+    print(f"Inserted into phpbb_1vote_voters")
+
 
 with app.app_context():
     result = db.session.execute(
@@ -175,4 +258,7 @@ with app.app_context():
     insert_to_post_text()
     insert_to_forums()
     insert_to_post_topics()
+    insert_vote_desc_from_csv("vote_desc.csv")
+    insert_vote_results_from_csv("vote_results.csv")
+    insert_vote_voters_from_csv("vote_voters.csv")
     print("done")
