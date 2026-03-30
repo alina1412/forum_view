@@ -15,6 +15,7 @@ deploy: https://flaskdennikov--dennikov.replit.app/
 </summary> 
 
 
+
 CREATE DATABASE dennikov;
 use  dennikov;
 source forum_dennikov_2006.sql;

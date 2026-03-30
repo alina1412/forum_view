@@ -79,6 +79,44 @@ def insert_to_post_text():
         db.session.commit()
 
 
+def insert_to_post_topics():
+    ins1 = f"""
+        INSERT INTO {SCHEMA_NAME}phpbb_1topics 
+        (topic_id, forum_id, topic_title, topic_poster, topic_time, topic_views, 
+        topic_replies, topic_status, topic_vote, topic_type, topic_first_post_id, 
+        topic_last_post_id, topic_moved_id)
+        VALUES 
+        (:topic_id, :forum_id, :topic_title, :topic_poster, :topic_time, :topic_views, 
+        :topic_replies, :topic_status, :topic_vote, :topic_type, :topic_first_post_id, 
+        :topic_last_post_id, :topic_moved_id)
+    """
+    int_fields = [
+        "topic_id",
+        "forum_id",
+        "topic_poster",
+        "topic_time",
+        "topic_views",
+        "topic_replies",
+        "topic_status",
+        "topic_vote",
+        "topic_type",
+        "topic_first_post_id",
+        "topic_last_post_id",
+        "topic_moved_id",
+    ]
+
+    with open("phpbb_1topics.csv", mode="r") as file:
+        csvFile = csv.DictReader(file, delimiter=";")
+
+        for lines in csvFile:
+            for field in int_fields:
+                lines[field] = int(lines[field])
+            # print(lines)
+            db.session.execute(text(ins1), lines)
+
+        db.session.commit()
+
+
 # fmt: off
 def insert_to_categories():
     sql = f"""
@@ -130,9 +168,11 @@ with app.app_context():
         cat_list = [
             f"{cat.cat_id} (ID: {cat.cat_title})" for cat in categories
         ]
-        print(cat_list)
+        # print(cat_list)
 
     # insert_to_categories()
     insert_to_phpbb_1posts()
     insert_to_post_text()
     insert_to_forums()
+    insert_to_post_topics()
+    print("done")
