@@ -14,7 +14,7 @@ deploy: https://flaskdennikov--dennikov.replit.app/
 
 </summary> 
 
-
+---- phpbb_1topics - id увеличивается с пропусками из таблицы! так надо
 
 CREATE DATABASE dennikov;
 use  dennikov;
