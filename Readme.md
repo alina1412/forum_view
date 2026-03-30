@@ -56,6 +56,11 @@ deploy: https://flaskdennikov--dennikov.replit.app/
 
 </summary> 
 
+2 версии: postgres и mysql (docker или локально)
+
+python3 app.py
+
+
 ---- phpbb_1topics - id увеличивается с пропусками из таблицы! так надо
 
 CREATE DATABASE dennikov;
