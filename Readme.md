@@ -1,9 +1,51 @@
-## personal project (Forum, flask)
+## personal project (Forum, Flask)
+
+> ! Форум является восстановленным, статическим - без регистрации, без паролей, открытый текст постов, тем и комментариев.
+
 
 deploy: https://flaskdennikov--dennikov.replit.app/
 
 
 <img width="1586" height="909" alt="image" src="https://github.com/user-attachments/assets/4e7f1ec9-1dce-417b-8058-36faf358d955" />
+
+
+## API Endpoints
+
+### Main Forum View
+- **URL:** `/`
+- **Method:** `GET`
+- **Description:** Displays the main forum categories.
+- **Tables:**
+  - `dennikov.phpbb_1forums`
+  - `dennikov.phpbb_1categories`
+
+### Topics View
+- **URL:** `/topics/<forum_id>`
+- **Method:** `GET`
+- **Description:** Displays a list of topics in a specific forum.
+- **Tables:**
+  - `dennikov.phpbb_1topics`
+  - `dennikov.phpbb_1forums`
+
+### Posts View
+- **URL:** `/topics/<forum_id>/<topic_id>`
+- **Method:** `GET`
+- **Description:** Shows a list of posts in a specific topic within a forum.
+- **Tables:**
+  - `dennikov.phpbb_1posts`
+  - `dennikov.phpbb_1posts_text`
+  - `dennikov.phpbb_1topics`
+  - `dennikov.phpbb_1users`
+  - `dennikov.phpbb_1vote_desc` (for votes)
+  - `dennikov.phpbb_1vote_results` (for votes)
+
+### User View
+- **URL:** `/users/<user_id>/`
+- **Method:** `GET`
+- **Description:** Displays information about a specific user.
+- **Tables:**
+  - `dennikov.phpbb_1users`
+
 
 <details close="">
 <summary>  
@@ -14,6 +56,12 @@ deploy: https://flaskdennikov--dennikov.replit.app/
 
 </summary> 
 
+2 версии: postgres и mysql (docker или локально)
+
+python3 app.py
+
+
+---- phpbb_1topics - id увеличивается с пропусками из таблицы! так надо
 
 CREATE DATABASE dennikov;
 use  dennikov;
