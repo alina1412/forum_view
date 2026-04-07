@@ -253,12 +253,12 @@ with app.app_context():
         ]
         # print(cat_list)
 
-    # insert_to_categories()
+    insert_to_categories()
     insert_to_phpbb_1posts()
     insert_to_post_text()
     insert_to_forums()
     insert_to_post_topics()
     insert_vote_desc_from_csv("vote_desc.csv")
     insert_vote_results_from_csv("vote_results.csv")
-    insert_vote_voters_from_csv("vote_voters.csv")
+    # insert_vote_voters_from_csv("vote_voters.csv")
     print("done")

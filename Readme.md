@@ -58,10 +58,18 @@ deploy: https://flaskdennikov--dennikov.replit.app/
 
 2 версии: postgres и mysql (docker или локально)
 
+### для postgres
+- создать схему dennikov
+- script postgre_tables_used.sql, postgre_users.sql
+- local_load.py
+- flask run
+
 python3 app.py
 
 
 ---- phpbb_1topics - id увеличивается с пропусками из таблицы! так надо
+
+### mysql
 
 CREATE DATABASE dennikov;
 use  dennikov;

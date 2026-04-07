@@ -11,3 +11,4 @@ htmlcov
 *.sql
 *.csv
 *.tar
+!postgre_tables_used.sql
