@@ -71,7 +71,7 @@ def posts_view(forum_id, topic_id):
 
     if topic_id in SPECIAL_TOPIC_IDS:
         sql = """    
-        SELECT  vote_option_text, vote_result
+        SELECT  vote_option_text, vote_result, vote_text
         FROM dennikov.phpbb_1vote_desc
         left join dennikov.phpbb_1vote_results 
            on phpbb_1vote_desc.vote_id = phpbb_1vote_results.vote_id

@@ -10,9 +10,10 @@
 <h3>Тема: {{title|safe}}</h3>
 
 {% if votes %}
+<b>{{votes[0]['vote_text']}}</b>
 {% for vote in votes %}
 <ul>
-    <li>{{vote['vote_option_text']}}: {{vote['vote_result']}} голоса(ов)</li>
+    <li>* {{vote['vote_option_text']}}: {{vote['vote_result']}} голоса(ов)</li>
 </ul>
 {% endfor %}
 {% endif %}
