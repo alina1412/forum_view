@@ -2,12 +2,56 @@
 
 services:
 
-  db:
-    image: mysql:8.0
-    command: --default-authentication-plugin=mysql_native_password
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: dennikov
-    # (this is just an example, not intended to be a production configuration)
-    ports:
-     - 3307:3306
+  # db:
+  #   image: mysql:8.0
+  #   command: --default-authentication-plugin=mysql_native_password
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: password
+  #     MYSQL_DATABASE: dennikov
+  #   # (this is just an example, not intended to be a production configuration)
+  #   ports:
+  #    - 3307:3306
+
+  db_alina_forum:
+      container_name: db_alina_forum
+      # build: db/
+      image: postgres:14-alpine
+      env_file: .env
+      environment:
+        POSTGRES_DB: dennikov
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+      ports:
+        - 5434:5432
+      command: >
+        postgres 
+        -c timezone=UTC 
+        -c log_timezone=UTC 
+        -c listen_addresses='*' 
+      healthcheck:
+        test: ["CMD-SHELL", "sh -c 'pg_isready -U postgres -d dennikov'"]
+        interval: 10s
+        timeout: 5s
+      volumes:
+        - database_data:/var/lib/postgresql/data
+
+  app_alina_forum:
+      container_name: app_alina_forum
+      build: ./app_pack
+      env_file: .env
+      environment:
+        - DB_HOST=db_alina_forum
+        - DB_NAME=dennikov
+        - DB_USERNAME=postgres
+        - POSTGRES_PORT=5432
+        - DB_PASSWORD=postgres
+        - APP_PORT=${APP_PORT}
+      ports:
+        - ${APP_PORT}:${APP_PORT}
+      depends_on:
+        - db_alina_forum
+
+
+volumes:
+  database_data:
+    # driver: local

@@ -16,7 +16,7 @@ app.secret_key = "my secret key"
 
 db = SQLAlchemy()
 database_url = os.getenv("DATABASE_URL")
-app.config["SQLALCHEMY_DATABASE_URI"] = database_url
+app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://postgres:postgres@localhost:5434/dennikov'
 db.init_app(app)
 
 SCHEMA_NAME = "dennikov."
@@ -260,5 +260,5 @@ with app.app_context():
     insert_to_post_topics()
     insert_vote_desc_from_csv("vote_desc.csv")
     insert_vote_results_from_csv("vote_results.csv")
-    # insert_vote_voters_from_csv("vote_voters.csv")
+    insert_vote_voters_from_csv("vote_voters.csv")
     print("done")

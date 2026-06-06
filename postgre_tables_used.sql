@@ -212,6 +212,7 @@ CREATE TABLE dennikov.phpbb_1smilies (
 	CONSTRAINT idx_16798_primary PRIMARY KEY (smilies_id)
 );
 
+
 INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     (':D','icon_biggrin.gif','Very Happy'),
     (':-D','icon_biggrin.gif','Very Happy'),
@@ -222,8 +223,7 @@ INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     (':(','icon_sad.gif','Sad'),
     (':-(','icon_sad.gif','Sad'),
     (':sad:','icon_sad.gif','Sad'),
-    (':o','icon_surprised.gif','Surprised');
-INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
+    (':o','icon_surprised.gif','Surprised'),
     (':-o','icon_surprised.gif','Surprised'),
     (':eek:','icon_surprised.gif','Surprised'),
     (':shock:','icon_eek.gif','Shocked'),
@@ -233,8 +233,7 @@ INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     ('8)','icon_cool.gif','Cool'),
     ('8-)','icon_cool.gif','Cool'),
     (':cool:','icon_cool.gif','Cool'),
-    (':lol:','icon_lol.gif','Laughing');
-INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
+    (':lol:','icon_lol.gif','Laughing'),
     (':x','icon_mad.gif','Mad'),
     (':-x','icon_mad.gif','Mad'),
     (':mad:','icon_mad.gif','Mad'),
@@ -244,8 +243,7 @@ INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     (':oops:','icon_redface.gif','Embarassed'),
     (':cry:','icon_cry.gif','Crying or Very sad'),
     (':evil:','icon_evil.gif','Evil or Very Mad'),
-    (':twisted:','icon_twisted.gif','Twisted Evil');
-INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
+    (':twisted:','icon_twisted.gif','Twisted Evil'),
     (':roll:','icon_rolleyes.gif','Rolling Eyes'),
     (':wink:','icon_wink.gif','Wink'),
     (';)','icon_wink.gif','Wink'),
@@ -255,8 +253,7 @@ INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     (':idea:','icon_idea.gif','Idea'),
     (':arrow:','icon_arrow.gif','Arrow'),
     (':|','icon_neutral.gif','Neutral'),
-    (':-|','icon_neutral.gif','Neutral');
-INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
+    (':-|','icon_neutral.gif','Neutral'),
     (':neutral:','icon_neutral.gif','Neutral'),
     (':mrgreen:','icon_mrgreen.gif','Mr. Green'),
     ('=D&gt;','eusa_clap.gif','Applause'),
@@ -266,8 +263,7 @@ INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     (':---)','eusa_liar.gif','Liar'),
     ('[-X','eusa_naughty.gif','Shame on you'),
     ('[-o&lt;','eusa_pray.gif','Pray'),
-    ('8-[','eusa_shifty.gif','Anxious');
-INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
+    ('8-[','eusa_shifty.gif','Anxious'),
     ('[-(','eusa_snooty.gif','Not talking'),
     (':-k','eusa_think.gif','Think'),
     ('](*,)','eusa_wall.gif','Brick wall'),
@@ -277,8 +273,7 @@ INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     (':-&','eusa_sick.gif','Sick'),
     (':-({|=','eusa_boohoo.gif','Boo hoo!'),
     (':-$','eusa_shhh.gif','Shhh'),
-    (':-s','eusa_eh.gif','Eh?');
-INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
+    (':-s','eusa_eh.gif','Eh?'),
     ('\:D/','eusa_dance.gif','Dancing'),
     (':-#','eusa_silenced.gif','Silenced'),
     (':gans:','2gunsfiring_v1.gif','gunsfiring'),
@@ -288,8 +283,7 @@ INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     (':bdays:','bdaysmile.gif','Bdaysmile'),
     (':birthday:','birthday.gif','Birthday'),
     (':black:','blackey.gif','Blackey'),
-    (':blow:','blowingup.gif','Blowingup');
-INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
+    (':blow:','blowingup.gif','Blowingup'),
     (':blue:','bluegrab.gif','Bluegrab'),
     (':butterfly:','butterfly.gif','Butterfly'),
     (':color:','color_.gif','Color'),
@@ -299,8 +293,7 @@ INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     (':let_it:','let_it_all_out.gif','let_it_all_out'),
     (':llying:','llying.gif','llying'),
     (':multi:','multi.gif','Multi'),
-    (':puppy:','puppy_dog_eyes.gif','PuppyDog');
-INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
+    (':puppy:','puppy_dog_eyes.gif','PuppyDog'),
     (':rainfro:','rainfro.gif','Rainfro'),
     (':scatter:','scatter.gif','Scatter'),
     (':scrambles:','scrambles.gif','Scrambles'),
@@ -310,8 +303,7 @@ INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     (':smilel:','smile-l.gif','Smile'),
     (':smileyb:','smileyb.gif','SmileYB'),
     (':sm_color:','smilie_colors1.gif','smilie_color'),
-    (':sniper:','snipersmilie.gif','snipersmilie');
-INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
+    (':sniper:','snipersmilie.gif','snipersmilie'),
     (':spiral:','spiral.gif','Spiral'),
     (':tomato:','tomato.gif','Tomato'),
     (':ukliam:','ukliam2.gif','Ukliam'),
@@ -321,8 +313,7 @@ INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     (':alc:','alc.gif','Alcohol'),
     (':apl:','apl.gif','Aplle'),
     (':app:','appl.gif','Applodismenty'),
-    (':att:','att.gif','');
-INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
+    (':att:','att.gif',''),
     (':au:','au.gif','Au'),
     (':bam:','bam.gif','BAM'),
     (':bath:','bath.gif','Bathroom'),
@@ -332,8 +323,7 @@ INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     (':box:','box.gif','box'),
     (':box2:','box2.gif','box'),
     (':brsh:','brsh.gif','brush'),
-    (':brsh1:','brsh1.gif','brush');
-INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
+    (':brsh1:','brsh1.gif','brush'),
     (':bubu:','bubu.gif','Bu'),
     (':bud:','bud.gif','Budenovech'),
     (':bur:','bur2.gif','burya'),
@@ -343,8 +333,7 @@ INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     (':daz:','daz.gif',''),
     (':drv:','drv.gif','drovosek'),
     (':dsv:','dsv.gif',''),
-    (':duel:','duel.gif','Duel');
-INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
+    (':duel:','duel.gif','Duel'),
     (':fart:','fart.gif',''),
     (':figa:','figa.gif','Figa'),
     (':fkr:','fkr.gif',''),
@@ -354,8 +343,7 @@ INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     (':gaz:','gaz.gif','Gazeta'),
     (':girl:','girl.gif','Girl'),
     (':git:','git.gif','Gitara'),
-    (':goss:','goss.gif','');
-INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
+    (':goss:','goss.gif',''),
     (':gost:','gost.gif','Gost'),
     (':hah:','hah.gif','hah'),
     (':hb:','hb.gif','hb'),
@@ -365,8 +353,7 @@ INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     (':hug:','hug.gif','hug'),
     (':inc:','inc.gif','inc'),
     (':iq:','iq.gif',''),
-    (':ivn:','ivn.gif','Ivanushka');
-INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
+    (':ivn:','ivn.gif','Ivanushka'),
     (':jok:','jok.gif','jok'),
     (':kar:','kar.gif','karate'),
     (':kngt:','kngt.gif',''),
@@ -376,8 +363,7 @@ INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     (':kult:','kult.gif',''),
     (':lam:','lam.gif','Lamer'),
     (':leb:','leb.gif','Lebedi'),
-    (':lu:','lu.gif','Lubov');
-INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
+    (':lu:','lu.gif','Lubov'),
     (':ma:','ma.gif','Mama'),
     (':mail:','mail.gif','Mail'),
     (':man:','man.gif',''),
@@ -387,8 +373,7 @@ INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     (':mpr:','mpr.gif',''),
     (':much:','much.gif',''),
     (':nap:','nap.gif','Napoleon'),
-    (':newy:','newy.gif','New Year');
-INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
+    (':newy:','newy.gif','New Year'),
     (':nom:','nomail.gif','No mail'),
     (':nud:','nud.gif',''),
     (':nunu:','nunu.gif',''),
@@ -398,8 +383,7 @@ INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     (':pauk:','pauk.gif','Pauk'),
     (':pom:','pom.gif','Pomidor'),
     (':pop:','pop.gif','Pop'),
-    (':popc1:','popc1.gif','Popcorn');
-INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
+    (':popc1:','popc1.gif','Popcorn'),
     (':poz:','poz.gif','Pozdravlenie'),
     (':pri:','pri.gif',''),
     (':pya:','pya.gif','Pyan'''),
@@ -409,8 +393,7 @@ INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     (':rog:','rog.gif','Rog'),
     (':ser:','ser.gif','Serenada'),
     (':shar:','shar.gif','Sharik'),
-    (':sharm:','sharm.gif','Sharmanka');
-INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
+    (':sharm:','sharm.gif','Sharmanka'),
     (':shv:','shv.gif','shveik'),
     (':shy:','shy.gif',''),
     (':sla:','sla.gif','Chupa-chups)'),
@@ -420,8 +403,7 @@ INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     (':susel:','susel.gif',''),
     (':thk:','thk.gif','Think'),
     (':trud:','trud.gif','Trud'),
-    (':tsr:','tsr.gif','Tseluu ruchku');
-INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
+    (':tsr:','tsr.gif','Tseluu ruchku'),
     (':umn:','umn.gif','Umnik'),
     (':unknw:','unknw.gif','Unknow'),
     (':upl:','upl.gif','Uplocheno'),
@@ -431,7 +413,13 @@ INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
     (':wht:','wht.gif',''),
     (':yar:','yar.gif',''),
     (':yaya:','yaya.gif',''),
-    (':yel:','yel.gif','');
-INSERT INTO dennikov.phpbb_1smilies (code,smile_url,emoticon) VALUES
+    (':yel:','yel.gif',''),
     (':-"','eusa_whistle.gif','Whistle'),
     ('\:D/','eusa_dance.gif','Dancing');
+
+
+CREATE TABLE dennikov.phpbb_1vote_voters (
+	vote_id int4 NOT NULL DEFAULT 0,
+	vote_user_id int4 NOT NULL DEFAULT 0,
+	vote_user_ip bpchar(8) NOT NULL DEFAULT ''::bpchar
+);
